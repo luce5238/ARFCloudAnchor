@@ -63,7 +63,7 @@ public class CloudAnchorManager : MonoBehaviour
         if (mode == Mode.HOST)
         {
             Hosting();
-
+            HostProcessing();
         }
     }
 
