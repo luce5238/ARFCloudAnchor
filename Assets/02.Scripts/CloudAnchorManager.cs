@@ -100,7 +100,7 @@ public class CloudAnchorManager : MonoBehaviour
         /*
             Insufficient = 0 // 불충분
             Sufficient   = 1 // 충분
-            Good         = 1 // Good
+            Good         = 2 // Good
         */
         FeatureMapQuality quality
             = anchorManager.EstimateFeatureMapQualityForHosting(GetCameraPose());
@@ -110,6 +110,7 @@ public class CloudAnchorManager : MonoBehaviour
         // 맵핑 퀄리티가 1이상일 때 호스팅 요청
         if (quality == FeatureMapQuality.Sufficient || quality == FeatureMapQuality.Good)
         {
+            // Google Cloud Anchor API를 사용해 업로드(클라우드 앵커의 생성을 요청)
             cloudAnchor = anchorManager.HostCloudAnchor(localAnchor, 1);
 
             if (cloudAnchor == null)
@@ -121,6 +122,34 @@ public class CloudAnchorManager : MonoBehaviour
                 mappingText = "클라우드 앵커 생성 시작";
                 mode = Mode.HOST_PENDING;
             }
+        }
+
+        messageText.text = mappingText;
+    }
+
+    void HostPending()
+    {
+        string mappingText = "";
+
+        if (cloudAnchor.cloudAnchorState == CloudAnchorState.Success)
+        {
+            mappingText = $"클라우드 앵커 생성 성공, CloudAnchor ID = {cloudAnchor.cloudAnchorId}";
+            // 앵커ID 저장
+            strCloudAnchorId = cloudAnchor.cloudAnchorId;
+
+            // 클라우드 앵커 ID를 공유하는 로직
+            // 포톤 네트워크 : RPC호출 
+            // 파이어베이스  : 데이터 저장
+            PlayerPrefs.SetString(cloudAnchorKey, strCloudAnchorId);
+
+            // 초기화
+            cloudAnchor = null;
+            // 기존에 증강된 객체를 삭제
+            Destroy(anchorGameObject);
+        }
+        else
+        {
+            mappingText = $"클라우드 앵커 생성 진행중... {cloudAnchor.cloudAnchorState}";
         }
 
         messageText.text = mappingText;
