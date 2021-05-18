@@ -69,8 +69,10 @@ public class CloudAnchorManager : MonoBehaviour
 
     void Hosting()
     {
+        // 탭 없을 경우 리턴
         if (Input.touchCount < 1) return;
 
+        // 첫 번째 터치가 아닐 경우 리턴
         Touch touch = Input.GetTouch(0);
         if (touch.phase != TouchPhase.Began) return;
 
@@ -91,9 +93,15 @@ public class CloudAnchorManager : MonoBehaviour
     // 클라우드 앵커 등록
     void HostProcessing()
     {
+        // 로컬 앵커가 생성되지 않았을 때 리턴
         if (localAnchor == null) return;
 
-        // 피쳐포인트의 갯수 및 퀄리티 측정
+        // 피쳐 포인트의 갯수 많을 수록 맵핑 퀄리티가 증가함.
+        /*
+            Insufficient = 0 // 불충분
+            Sufficient   = 1 // 충분
+            Good         = 1 // Good
+        */
         FeatureMapQuality quality
             = anchorManager.EstimateFeatureMapQualityForHosting(GetCameraPose());
 
