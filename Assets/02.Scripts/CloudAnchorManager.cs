@@ -60,6 +60,7 @@ public class CloudAnchorManager : MonoBehaviour
         if (mode == Mode.HOST)
         {
             Hosting();
+
         }
     }
 
@@ -82,6 +83,21 @@ public class CloudAnchorManager : MonoBehaviour
                 anchorGameObject = Instantiate(anchorPrefab, localAnchor.transform);
             }
         }
+    }
+
+    // 클라우드 앵커 등록
+    void HostProcessing()
+    {
+        if (localAnchor == null) return;
+
+        FeatureMapQuality quality
+            = anchorManager.EstimateFeatureMapQualityForHosting(GetCameraPose());
+    }
+
+    // Maincamera 태그로 지정된 카메라의 위치와 각도를 Pose 데이터 타입으로 반환
+    public Pose GetCameraPose()
+    {
+        return new Pose(Camera.main.transform.position, Camera.main.transform.rotation);
     }
 
     void OnHostClick()
