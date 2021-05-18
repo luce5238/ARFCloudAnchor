@@ -38,9 +38,13 @@ public class CloudAnchorManager : MonoBehaviour
     private ARCloudAnchor cloudAnchor;
 
 
+    // Raycast Hit
+    private List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
-
-
+    // 클라우드 앵커 ID 저장하기 위한 키값 (PlayerPrefs.SetString("키", 값))
+    private const string cloudAnchorKey = "CLOUD_ANCHOR_ID";
+    // 클라우드 앵커 ID
+    private string strCloudAnchorId;
 
     // Start is called before the first frame update
     void Start()
