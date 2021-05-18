@@ -566,6 +566,7 @@ MonoBehaviour:
   hostButton: {fileID: 384248890}
   resolveButton: {fileID: 1258958054}
   resetButton: {fileID: 192248600}
+  messageText: {fileID: 890084357}
   mode: 0
   anchorManager: {fileID: 2066306689}
   raycastManager: {fileID: 2066306690}
