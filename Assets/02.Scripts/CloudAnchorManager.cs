@@ -55,23 +55,49 @@ public class CloudAnchorManager : MonoBehaviour
         resetButton.onClick.AddListener(() => OnResetClick());
     }
 
+    void Update()
+    {
+        if (mode == Mode.HOST)
+        {
+            Hosting();
+        }
+    }
+
+    void Hosting()
+    {
+        if (Input.touchCount < 1) return;
+
+        Touch touch = Input.GetTouch(0);
+        if (touch.phase != TouchPhase.Began) return;
+
+        // 로컬 앵커가 존재하는지 여부를 확인
+        if (localAnchor == null)
+        {
+            // Raycast 발사
+            if (raycastManager.Raycast(touch.position, hits, TrackableType.PlaneWithinPolygon))
+            {
+                // 로컬 앵커를 생성
+                localAnchor = anchorManager.AddAnchor(hits[0].pose);
+                // 로컬 앵커 위치에 Mummy 증강시키고 변수에 저장
+                anchorGameObject = Instantiate(anchorPrefab, localAnchor.transform);
+            }
+        }
+    }
 
     void OnHostClick()
     {
+        mode = Mode.HOST;
     }
 
     void OnResolveClick()
     {
+        mode = Mode.RESOLVE;
     }
 
     void OnResetClick()
     {
     }
 
-    void Update()
-    {
-
-    }
 
 
 }
