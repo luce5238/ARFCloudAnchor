@@ -56,6 +56,8 @@ public class CloudAnchorManager : MonoBehaviour
         hostButton.onClick.AddListener(() => OnHostClick());
         resolveButton.onClick.AddListener(() => OnResolveClick());
         resetButton.onClick.AddListener(() => OnResetClick());
+
+        strCloudAnchorId = PlayerPrefs.GetString(cloudAnchorKey, "");
     }
 
     void Update()
@@ -64,6 +66,10 @@ public class CloudAnchorManager : MonoBehaviour
         {
             Hosting();
             HostProcessing();
+        }
+        if (mode == Mode.HOST_PENDING)
+        {
+            HostPending();
         }
     }
 
@@ -146,6 +152,8 @@ public class CloudAnchorManager : MonoBehaviour
             cloudAnchor = null;
             // 기존에 증강된 객체를 삭제
             Destroy(anchorGameObject);
+
+            mode = Mode.READY;
         }
         else
         {
