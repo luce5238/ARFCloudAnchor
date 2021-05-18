@@ -9,6 +9,7 @@ using UnityEngine.XR.ARSubsystems;
 
 // Google ARCore Extensions
 using Google.XR.ARCoreExtensions;
+using System;
 
 public class CloudAnchorManager : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class CloudAnchorManager : MonoBehaviour
 
     // 상태 변수
     public Mode mode = Mode.READY;
-    // AnchorManager
+    // AnchorManager //로컬 앵커를 생성하기 위한 클래스
     public ARAnchorManager anchorManager;
     // ArRaycastManager
     public ARRaycastManager raycastManager;
@@ -46,15 +47,31 @@ public class CloudAnchorManager : MonoBehaviour
     // 클라우드 앵커 ID
     private string strCloudAnchorId;
 
-    // Start is called before the first frame update
     void Start()
     {
-
+        // 버튼 이벤트 연결
+        hostButton.onClick.AddListener(() => OnHostClick());
+        resolveButton.onClick.AddListener(() => OnResolveClick());
+        resetButton.onClick.AddListener(() => OnResetClick());
     }
 
-    // Update is called once per frame
+
+    void OnHostClick()
+    {
+    }
+
+    void OnResolveClick()
+    {
+    }
+
+    void OnResetClick()
+    {
+    }
+
     void Update()
     {
 
     }
+
+
 }
