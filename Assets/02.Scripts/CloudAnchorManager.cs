@@ -21,6 +21,9 @@ public class CloudAnchorManager : MonoBehaviour
     public Button resolveButton;    // 클라우드 앵커 조회
     public Button resetButton;      // 리셋
 
+    // 메시지 출력 텍스트
+    public Text messageText;
+
     // 상태 변수
     public Mode mode = Mode.READY;
     // AnchorManager //로컬 앵커를 생성하기 위한 클래스
@@ -90,8 +93,29 @@ public class CloudAnchorManager : MonoBehaviour
     {
         if (localAnchor == null) return;
 
+        // 피쳐포인트의 갯수 및 퀄리티 측정
         FeatureMapQuality quality
             = anchorManager.EstimateFeatureMapQualityForHosting(GetCameraPose());
+
+        string mappingText = string.Format("맵핑 품질 = {0}", quality);
+
+        // 맵핑 퀄리티가 1이상일 때 호스팅 요청
+        if (quality == FeatureMapQuality.Sufficient || quality == FeatureMapQuality.Good)
+        {
+            cloudAnchor = anchorManager.HostCloudAnchor(localAnchor, 1);
+
+            if (cloudAnchor == null)
+            {
+                mappingText = "클라우드 앵커 생성 실패";
+            }
+            else
+            {
+                mappingText = "클라우드 앵커 생성 시작";
+                mode = Mode.HOST_PENDING;
+            }
+        }
+
+        messageText.text = mappingText;
     }
 
     // Maincamera 태그로 지정된 카메라의 위치와 각도를 Pose 데이터 타입으로 반환
