@@ -20,6 +20,27 @@ public class CloudAnchorManager : MonoBehaviour
     public Button resolveButton;    // 클라우드 앵커 조회
     public Button resetButton;      // 리셋
 
+    // 상태 변수
+    public Mode mode = Mode.READY;
+    // AnchorManager
+    public ARAnchorManager anchorManager;
+    // ArRaycastManager
+    public ARRaycastManager raycastManager;
+
+    // 증강시킬 객체 프리팹
+    public GameObject anchorPrefab;
+    // 저장 객체 변수(삭제하기 위한 용도)
+    private GameObject anchorGameObject;
+
+    // 로컬앵커 저장 변수
+    private ARAnchor localAnchor;
+    // 클라우드 앵커 변수
+    private ARCloudAnchor cloudAnchor;
+
+
+
+
+
 
     // Start is called before the first frame update
     void Start()
